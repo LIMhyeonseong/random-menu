@@ -574,13 +574,7 @@ const menus = [
         category: "패스트푸드",
         type: "든든한 메뉴",
         description: "고소한 치즈와 패티를 간단하게 즐기는 메뉴입니다."
-    },
-    {
-        name: "감자튀김 세트",
-        category: "패스트푸드",
-        type: "none",
-        description: "바삭한 감자튀김과 사이드 구성을 함께 즐기는 메뉴입니다."
-    },
+    },    
     {
         name: "치킨",
         category: "패스트푸드",
@@ -721,6 +715,41 @@ const menuName = document.getElementById("menuName");
 const menuCategory = document.getElementById("menuCategory");
 const menuDescription = document.getElementById("menuDescription");
 
+const resultOverlay = document.getElementById("resultOverlay");
+const closeResultBtn = document.getElementById("closeResultBtn");
+
+const resultMenuName = document.getElementById("resultMenuName");
+const resultMenuCategory = document.getElementById("resultMenuCategory");
+const resultMenuDescription = document.getElementById("resultMenuDescription");
+
+function openResultModal(menu) {
+    resultMenuName.textContent = menu.name;
+    resultMenuCategory.textContent = menu.category;
+    resultMenuDescription.textContent = menu.description;
+
+    resultOverlay.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+function closeResultModal() {
+    resultOverlay.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+}
+
+closeResultBtn.addEventListener("click", closeResultModal);
+
+resultOverlay.addEventListener("click", function (event) {
+    if (event.target === resultOverlay) {
+        closeResultModal();
+    }
+});
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        closeResultModal();
+    }
+});
+
 function applyCategoryButtonEmojis() {
     categoryButtons.forEach(function (button) {
         const category = button.dataset.category;
@@ -836,14 +865,15 @@ function getFilteredMenus() {
 }
 
 recommendButton.addEventListener("click", function () {
-    restartResultAnimation();
-
     const filteredMenus = getFilteredMenus();
 
     if (filteredMenus.length === 0) {
-        menuName.textContent = "추천할 메뉴가 없습니다.";
-        menuCategory.textContent = "";
-        menuDescription.textContent = "카테고리 또는 메뉴 타입을 하나 이상 선택해주세요.";
+        openResultModal({
+            name: "추천할 메뉴가 없습니다.",
+            category: "",
+            description: "카테고리 또는 메뉴 타입을 하나 이상 선택해주세요."
+        });
+
         return;
     }
 
@@ -852,15 +882,19 @@ recommendButton.addEventListener("click", function () {
 
     const menuEmoji = categoryEmojis[selectedMenu.category] || "🍽️";
 
-    menuName.textContent = menuEmoji + " " + selectedMenu.name;
+    let categoryText = "";
 
     if (selectedMenu.type === "none") {
-        menuCategory.textContent = "카테고리: " + selectedMenu.category;
+        categoryText = "카테고리: " + selectedMenu.category;
     } else {
-        menuCategory.textContent = "카테고리: " + selectedMenu.category + " / " + selectedMenu.type;
+        categoryText = "카테고리: " + selectedMenu.category + " / " + selectedMenu.type;
     }
 
-    menuDescription.textContent = "설명: " + selectedMenu.description;
+    openResultModal({
+        name: menuEmoji + " " + selectedMenu.name,
+        category: categoryText,
+        description: "설명: " + selectedMenu.description
+    });
 });
 
 applyCategoryButtonEmojis();
