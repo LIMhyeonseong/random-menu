@@ -574,7 +574,7 @@ const menus = [
         category: "패스트푸드",
         type: "든든한 메뉴",
         description: "고소한 치즈와 패티를 간단하게 즐기는 메뉴입니다."
-    },    
+    },
     {
         name: "치킨",
         category: "패스트푸드",
