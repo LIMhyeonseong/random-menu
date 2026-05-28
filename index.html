@@ -43,14 +43,18 @@
         </div>
 
         <button id="recommendButton" class="recommend-button">랜덤 메뉴 추천하기</button>
-
-        <div id="resultBox" class="result-box hidden">
-            <h2 id="menuName">추천 결과가 여기에 표시됩니다.</h2>
-            <p id="menuCategory"></p>
-            <p id="menuDescription"></p>
-        </div>
     </div>
 
+    <div id="resultOverlay" class="result-overlay hidden">
+    <div class="result-modal">
+        <button id="closeResultBtn" class="result-close-btn" type="button">×</button>
+        <p class="result-label">오늘의 추천 메뉴</p>
+        <h2 id="resultMenuName" class="result-menu-name">메뉴 이름</h2>
+        <p id="resultMenuCategory" class="result-menu-category">카테고리</p>
+        <p id="resultMenuDescription" class="result-menu-description">
+            메뉴 설명
+        </p>
+    </div>
     <script src="./script.js"></script>
 </body>
 </html>
